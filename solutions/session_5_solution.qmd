@@ -1,0 +1,168 @@
+---
+title: "Session 5: Solutions"
+format: html
+editor: source
+---
+
+**If you make changes to this file, please save it as `session_5_solution_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it.**
+
+# Putting it All Together
+
+Let's make a report that studies one of the symptoms tracked in the cirrhosis data we've looked at.  For example, maybe you want to work around the symptom of Ascites (that's a discrete symptom), or Cholesterol level (that's a continuous measure).  But you pick one that you are most curious about!
+
+Note that we're not doing research-grade predictive modeling or hypothesis testing... that is outside the scope of this First Steps workshop series.
+
+This time, the entire Quarto document is "your turn"... so go ahead and create the code chunks you want!  We'll provide some scaffolding.
+
+## Load Libraries and Import Data
+
+We're bringing in cirrhosis data from the 1980's that was used for predictive modeling. <https://archive.ics.uci.edu/dataset/878/cirrhosis+patient+survival+prediction+dataset-1>
+
+Cirrhosis is a disease of the liver that ....
+
+The study population included ....
+
+```{r libraries-ingest, warning = FALSE, message = FALSE}
+library(tidyverse)
+cirrhosis_study <- read_csv("../data/cirrhosis.csv") 
+```
+
+## Do Any Preliminary Tidying You Want
+
+We're going to do some data cleaning, setting some data to be factor (categorical), and making Age to reflect years.
+
+```{r}
+cleaned_cirrhosis_study <- cirrhosis_study |>
+  mutate(Status = factor(Status),
+         Drug = factor(Drug),
+         Age = Age/365.25,
+         Sex = factor(Sex),
+         Ascites = factor(Ascites),
+         Hepatomegaly = factor(Hepatomegaly),
+         Spiders = factor(Spiders),
+         Edema = factor(Edema),
+         Stage = factor(Stage))
+```
+
+## Show a Snapshot of the Data
+
+Here's a peek at some of the characteristics of the data:
+
+```{r}
+summary(cleaned_cirrhosis_study)
+```
+
+## Show Some Data Viz and/or Group Statistics
+
+We're going to concentrate on one discrete characteristic, the presence spider angiomas, recorded as either "Y" or "N" in the `Spiders` variable, and one continuous measurement, the number of thousands of platelets per cubic ml, stored in the `Platelets` variable.
+
+Let's take a look at `Spiders` by looking at its prevalence per each cirrhosis disease stage.  We'll first make a slimmed down version of our data and remove rows for which we either don't know the stage of the disease or have no data about whether there are spiders.  Then we'll assess overall prevalence.
+
+```{r}
+spiders_complete_data <- cleaned_cirrhosis_study |>
+  select(ID, Stage, Spiders) |>
+  filter(!is.na(Stage),
+         !is.na(Spiders))
+
+spiders_prevalence_data <- spiders_complete_data |>
+  group_by(Stage) |>
+  summarise(spiders_pct = (sum(Spiders == "Y") / n()) * 100)
+
+spiders_prevalence_data
+```
+
+OK, so it looks like the proportion of spiders increases with disease stage. Let's look at this visually!
+
+```{r}
+ggplot(spiders_complete_data) +
+  geom_bar(aes(x=Stage, fill = Spiders),
+           position = "dodge") 
+```
+
+Let's fancy it up with some additional customization!
+
+```{r}
+ggplot(spiders_complete_data) +
+  geom_bar(aes(x=Stage, fill = Spiders),
+           position = "dodge") +
+  labs(title = "Spider Angioma Prevalence Increases With Cirrhosis Severity",
+       subtitle = "Data With Unknown Spider Angioma Status or Cirrhosis Stage Excluded",
+       caption = "Data credit: UCI Machine Learning Repository",
+       x = "Cirrhosis Disease Stage",
+       y = "Participant Count") +
+  scale_fill_manual(name = "Spider Angioma Status",
+                    labels = c("N" = "Absent",
+                               "Y" = "Present"),
+                    values = c("N" = "goldenrod4",
+                               "Y" = "darkorchid4"))
+```
+
+Finally, we can add another geom to include some labels right on the graph.  If our underlying data changes, our labels will, too!
+
+```{r}
+ggplot(spiders_complete_data) +
+  geom_bar(aes(x=Stage, fill = Spiders),
+           position = "dodge") +
+  geom_label(data = spiders_prevalence_data,
+             mapping = aes(x = Stage,
+                           y = 70,
+                           label = paste0("Stage ",
+                                          Stage,
+                                          ": ",
+                                          round(spiders_pct), 
+                                         "%\nPrevalence")),
+             alpha = 0.8) +
+  labs(title = "Spider Angioma Prevalence Increases With Cirrhosis Severity",
+       subtitle = "Data With Unknown Spider Angioma Status or Cirrhosis Stage Excluded",
+       caption = "Data credit: UCI Machine Learning Repository",
+       x = "Cirrhosis Disease Stage",
+       y = "Participant Count") +
+  scale_fill_manual(name = "Spider Angioma Status",
+                    labels = c("N" = "Absent",
+                               "Y" = "Present"),
+                    values = c("N" = "goldenrod4",
+                               "Y" = "darkorchid4"))
+```
+
+
+OK, now let's look at `Platelet` data.  We'd like to see if there appears to be a relationship between platelet count and duration in study.  Let's also keep in mind that people left the study for three reasons: transplant, death, and end of the study.  These three endings or "status" designations might have different patterns, so let's look at them separately.
+
+We're going to start by creating a cleaner dataset for just this question, with somewhat better labels for our `Status` variable.
+
+```{r}
+platelet_data <- cleaned_cirrhosis_study |>
+  select(ID,
+         Platelets,
+         N_Days,
+         Status) |>
+  mutate(Status = fct_recode(Status, 
+                            "Censored" = "C", 
+                            "Transplant" = "CL",
+                            "Deceased" = "D"))
+
+```
+
+Let's first plot just the data points.
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(platelet_data) +
+  geom_point(aes(x = Platelets, y = N_Days)) +
+  facet_grid(vars(Status))
+```
+
+Now, let's plot both the data points themselves as well as the linear model that can be derived from the points, and add a bit of customization:
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(platelet_data) +
+  geom_point(aes(x = Platelets, y = N_Days),
+             alpha = 0.7) +
+  geom_smooth(aes(x = Platelets, y = N_Days),
+              method = "lm",
+              color = "darkgreen") +
+  facet_grid(vars(Status)) +
+  labs(title = "Increased Platelet Count Associated With Longer Study Duration",
+       x = "Platelet Count per cubic ml/1000",
+       y = "Study Duration in Days") +
+  theme_bw() 
+```
+

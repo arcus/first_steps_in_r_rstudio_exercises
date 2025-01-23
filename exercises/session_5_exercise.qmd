@@ -1,0 +1,37 @@
+---
+title: "Session 5: Exercise"
+format: html
+editor: source
+---
+
+**When you make changes to this file, please save it as `session_5_exercise_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it.**
+
+# Putting it All Together
+
+Let's make a report that studies one of the symptoms tracked in the cirrhosis data we've looked at.  For example, maybe you want to work around the symptom of Ascites (that's a discrete symptom), or Cholesterol level (that's a continuous measure).  But you pick one that you are most curious about!
+
+Note that we're not doing research-grade predictive modeling or hypothesis testing... that is outside the scope of this First Steps workshop series.  
+
+This time, the entire Quarto document is "your turn"... so go ahead and create the code chunks you want!  We'll provide some scaffolding.
+
+## Load Libraries and Import Data
+
+Information about cirrhosis data: <https://archive.ics.uci.edu/dataset/878/cirrhosis+patient+survival+prediction+dataset-1>
+
+Describe the data here in words for your audience if you want...
+
+
+## Do Any Preliminary Tidying You Want
+
+Maybe you want to work with some factors?  Rename some columns?  Change the scale of a value?
+
+
+## Show a Snapshot of the Data
+
+We haven't really talked about this, but you can use functions like `head()` or `summary()` to show some overall information about a data frame.
+
+
+## Show Some Data Viz and/or Group Statistics
+
+
+

@@ -1,0 +1,13 @@
+---
+title: "Setup"
+format: html
+editor: source
+---
+
+## Installing a Package
+
+You only have to do this once in a Posit.cloud Project (or once on your computer) for a given version of a package. Note the use of quotation marks! If you're asked if you want to restart R, that's totally fine.
+
+```{r}
+install.packages("tidyverse")
+```

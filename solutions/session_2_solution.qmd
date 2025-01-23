@@ -1,0 +1,128 @@
+---
+title: "Session 2 (Getting Started): Solutions"
+format: html
+editor: source
+---
+
+**Note:** this "Solution" file does not have additional material compared to the "Exercise" file of the same name.
+
+**If you make changes to this file, please save it as `session_2_solution_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it.**
+
+## What is This?
+
+This is a Quarto file! You can look at it using the "Source" or "Visual" button in Posit.cloud or RStudio.
+
+**Your turn 1:** Give both a try. Try clicking "Source" and scroll down to see how this file looks. Then try clicking "Visual" and do the same thing. Things look a little different in each version. You might like one more than the other!
+
+**If you make changes to this file, please save it as `session_2_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it.**
+
+## Loading a Package
+
+You should do this at the beginning of any script that uses a package. The `library()` function brings packages into R's memory (but you have to have installed them already at some point, using `install.packages()`).
+
+You might get some verbose output that is hard to understand, but don't worry. Things like `tidyverse_conflicts` are just warnings to let you know that `tidyverse` has taken over some function names, which is actually what we want to happen.
+
+**Your turn 2:** Run the chunk below (look for the green "play" button in the corner of the "code chunk").
+
+```{r}
+library(tidyverse)
+```
+
+## Once You've Loaded a Package ...
+
+... you can use its contents. For example, `tidyverse` includes the function `read_csv()`, so once you've run the `library(tidyverse)` command, you can use `read_csv()` for the rest of the time you have that R session active.
+
+Let's try it!
+
+## Importing Data Using `read_csv()`
+
+**Your turn 3:** In case you haven't looked, take a look over in the lower right side of the application to find the "Files" tab.
+
+The exercise files are in the `exercises` directory, so in order to get to the data, I have to go up a level, to the directory that holds both `exercises` and `data`. That's why I start with two dots, which means "go up a level". Then I go down into `data` to find the file I want to open.
+
+**Your turn 4:** Run the chunk below (you know where to look, right?).
+
+```{r}
+cirrhosis_study <- read_csv("../data/cirrhosis.csv")
+```
+
+## Working with the Environment Tab
+
+**Your turn 5:** Now look in the upper right pane of Posit.cloud or RStudio, in your "Environment" tab. Do you see `cirrhosis_study`? It's an **object**. It exists in your R **environment** which means you can interact with it. See if you can answer these questions!
+
+-   How many **observations** (rows) does `cirrhosis_study` have?
+
+-   How many **variables** (columns) does `cirrhosis_study` have?
+
+-   What happens if you click on the blue triangle beside `cirrhosis_study` in the Environment tab?
+
+-   What happens if you click on the name "cirrhosis_study" in the Environment tab?
+
+## About Naming Things
+
+By the way, you didn't have to call the new object `cirrhosis_study`. You could call it `my_data`, `liver_stuff`, or `bob`. It's a good idea to name things in ways that are very clear, however.
+
+Names (names of columns, names of data frames, etc.) should in general:
+
+-   Not have spaces (use underscores instead!)
+-   Be all lower case (or CamelCase, but be consistent!)
+-   Not have symbols like colons or commas
+-   Explain what they hold
+-   Not start with a number
+-   Be consistent (don't name one column `birth_date` and the other `date_of_death` -- choose a single word order and go with that!)
+-   Be short-ish (that kind of depends on who's counting!)
+
+Good names:
+
+-   `age_yrs_at_intake`
+-   `dob`
+-   `last_name`
+-   `bp_systolic`
+
+Bad names:
+
+-   `variable_1` (doesn't explain what it is!)
+-   `Last Name` (has spaces)
+-   `1st_name` (starts with a number)
+-   `age:years` (contains a symbol other than underscore)
+
+## In R, You can Do Things Multiple Ways
+
+**Your turn 6:** Read and execute the cells below.
+
+Here's one way we can find out the median value of Albumin for all the subjects in the study:
+
+```{r}
+median(cirrhosis_study$Albumin)
+```
+
+Here's another way we can do the same thing:
+
+```{r}
+cirrhosis_study %>%
+  summarize(median_albumin = median(Albumin))
+```
+
+Here's a third way:
+
+```{r}
+cirrhosis_study |>
+  pull(Albumin) |>
+  median()
+```
+
+Here's a way we can get the median and a couple of other values:
+
+```{r}
+summary(cirrhosis_study$Albumin)
+```
+
+We show you this because other people might show you how to do things in ways we don't. In R, there are many ways to do the same thing!
+
+## Rendering
+
+When you write your code and your human reasoning like this, interlaced, in a Quarto doc, it's very easy to make a document like an html page.
+
+**Your turn 7:**
+
+At the top of the screen you should see a button that says "Render" with a blue arrow. Click it.
