@@ -4,10 +4,14 @@ format: html
 editor: source
 ---
 
-## Installing a Package
+## Installing Packages
 
-You only have to do this once in a Posit.cloud Project (or once on your computer) for a given version of a package. Note the use of quotation marks! If you're asked if you want to restart R, that's totally fine.
+You usually only have to do this once in a Posit.cloud Project (or once on your computer) for a given version of a package. Note the use of quotation marks around the names of packages! 
+
+If you're asked if you want to restart R, that's fine (it kind of doesn't matter either way in our case).
+
+What's the `c()` construct?  That's a **concatenation**, which is a kind of list.  You'll see the use of concatenations frequently in R: `c(1,2,3,10,23)`, `c("apple","banana","canteloupe")`, `c(TRUE, FALSE)`, etc.
 
 ```{r}
-install.packages("tidyverse")
+install.packages(c("rmarkdown", "tidyverse"))
 ```
