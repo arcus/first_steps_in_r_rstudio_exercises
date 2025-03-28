@@ -105,24 +105,41 @@ ggplot(cirrhosis_study) +
                  binwidth = 365.25) 
 ```
 
+## Adding a Label
+
+Adding a title or axis labels can make your visualization instantly better!  In our case, "N_Days" isn't very self-explanatory, so let's correct the X-axis label.
+
+**Your turn 6:** Add a descriptive label that is better than N_Days.  If you don't remember what N_Days means, scroll up to the top of this file!
+
+```{r}
+ggplot(cirrhosis_study) +
+  geom_histogram(mapping = aes(x = N_Days,
+                               fill = Hepatomegaly), 
+                 binwidth = 365.25) +
+  labs(x = "Duration in Study (Days)") # Lots of possible correct answers here!
+```
+
+In addition to using axis labels in `labs`, you can also add a title, subtitle, or other labels.  In your console, you can type `?labs` to find out more.
+
 ## Choosing colors
 
 When you map colors to discrete values, `ggplot2` will pick colors that are far apart on the color wheel and can be distinguished from one another by most people with ease, but sometimes you might want to specify which colors, and not have it guess. Maybe you want to avoid the color red, for example, or you'd rather have three shades of blue of different intensity.
 
 If you want to use a particular group of colors (a "palette"), there are several different packages that provide color palettes. Here's one way you could specify a palette, using `scale_color_brewer`, which is part of `ggplot2`. Notice that we have to specify a color for missing, or NA, values, in addition to the palette.
 
-**Your turn 6:** Run the chunk below!
+**Your turn 7:** Run the chunk below!
 
 ```{r}
 ggplot(cirrhosis_study) +
   geom_histogram(mapping = aes(x = N_Days,
                                fill = Hepatomegaly), 
                  binwidth = 365.25)  +
+  labs(x = "Duration in Study (Days)") +
   scale_fill_brewer(palette = "Pastel1",
                     na.value = "grey70")
 ```
 
-**Your turn 7:**
+**Your turn 8:**
 
 Copy the code from the chunk above and paste it below. Instead of "Pastel1", try other palettes from "R Color Brewer". Here are the ones you can choose from:
 
@@ -135,6 +152,7 @@ ggplot(cirrhosis_study) +
   geom_histogram(mapping = aes(x = N_Days,
                                fill = Hepatomegaly), 
                  binwidth = 365.25)  +
+  labs(x = "Duration in Study (Days)") +
   scale_fill_brewer(palette = "YlGn",  # I picked this one at random!
                     na.value = "grey70")
 ```
@@ -148,7 +166,7 @@ Maybe you want to be VERY specific and manually put in color definitions. For ex
 
 Here's how we could do that.
 
-**Your turn 8:** Try running the code below. This time there's nothing you have to add or fill in!
+**Your turn 9:** Try running the code below. This time there's nothing you have to add or fill in!
 
 ```{r}
 ggplot(cirrhosis_study) +
@@ -166,7 +184,7 @@ This histogram is "stacked", and it is kind of hard to read. It divides each "bi
 
 Let's consider a couple of options. Instead of a "stacked" position, we could have each color be independent. That would mean they would overlap, so we'd need to make each histogram semi-transparent, so we could see through them. Here's how we could do that. We've added two new arguments to our code: `position` and `alpha`.
 
-**Your turn 9:** Try running the code below. This time there's nothing you have to add or fill in! If you want, however, you can try different values between 0 and 1 for alpha, to understand how alpha works.
+**Your turn 10:** Try running the code below. This time there's nothing you have to add or fill in! If you want, however, you can try different values between 0 and 1 for alpha, to understand how alpha works.
 
 ```{r}
 ggplot(cirrhosis_study) +
@@ -175,6 +193,7 @@ ggplot(cirrhosis_study) +
                  binwidth = 365.25,
                  position = "identity",
                  alpha = 0.5) +
+  labs(x = "Duration in Study (Days)") +
   scale_fill_manual(values = c("Y" = "#41B6E6",
                                "N" = "#91A01E"),
                     na.value ="#786452")
@@ -182,7 +201,7 @@ ggplot(cirrhosis_study) +
 
 Oof. That's somehow even worse, because the overlap is so strong that it's really hard to read. This would be a great option if we had histograms that had different ranges (so the overlap wasn't quite so intense), but it's not good here at all. Let's try a different approach -- using position = "dodge".
 
-**Your turn 10:** Copy and paste the previous code chunk above. Remove the `alpha` argument and set the `position` argument to "dodge". Make sure the last argument in `geom_histogram` isn't followed by a comma, or R will wonder what else you meant to add! Then run the chunk.
+**Your turn 11:** Copy and paste the previous code chunk above. Remove the `alpha` argument and set the `position` argument to "dodge". Make sure the last argument in `geom_histogram` isn't followed by a comma, or R will wonder what else you meant to add! Then run the chunk.
 
 ```{r}
 ggplot(cirrhosis_study) +
@@ -190,6 +209,7 @@ ggplot(cirrhosis_study) +
                                fill = Hepatomegaly), 
                  binwidth = 365.25,
                  position = "dodge") +
+  labs(x = "Duration in Study (Days)") +
   scale_fill_manual(values = c("Y" = "#41B6E6",
                                "N" = "#91A01E"),
                     na.value ="#786452")
@@ -199,7 +219,7 @@ ggplot(cirrhosis_study) +
 
 You can also have several plots side-by-side that show the same plot for different parts of your data. Let's try that with our histogram. It will work better for us than other options, since our histogram overlaps the same range for each group.
 
-**Your turn 11:** Try running the code below. This time there's nothing you have to add or fill in! Do notice, however the new last line we added: `facet_wrap`.
+**Your turn 12:** Try running the code below. This time there's nothing you have to add or fill in! Do notice, however the new last line we added: `facet_wrap`.
 
 ```{r}
 ggplot(cirrhosis_study) +
@@ -207,6 +227,7 @@ ggplot(cirrhosis_study) +
                                fill = Hepatomegaly), 
                  binwidth = 365.25,
                  position = "dodge") +
+  labs(x = "Duration in Study (Days)") +
   scale_fill_manual(values = c("Y" = "#41B6E6",
                                "N" = "#91A01E"),
                     na.value ="#786452") +
@@ -220,9 +241,9 @@ There are a couple of ways to facet:
 
 ## Adding / Tweaking Labels
 
-Of course, you want your labels to be useful. Below, we added some sample better labels for the x and y axes, as well as a title and subtitle.
+Of course, you want your labels to be useful. Let's expand and do more labeling!  Below, we added some sample better labels both axes, as well as a title and subtitle.
 
-**Your turn 12:** Run the chunk below. Then, change the title and subtitle to suit what you think is best (or remove the subtitle if you prefer). Feel free to alter the axis labels as well.
+**Your turn 13:** Run the chunk below. Then, change the title and subtitle to suit what you think is best (or remove the subtitle if you prefer). Feel free to alter the axis labels as well.
 
 ```{r}
 ggplot(cirrhosis_study) +
@@ -232,12 +253,14 @@ ggplot(cirrhosis_study) +
                  position = "dodge") +
   scale_fill_manual(values = c("Y" = "#41B6E6",
                                "N" = "#91A01E"),
-                    na.value ="#786452") +
+                    na.value ="#786452") + 
+  
   facet_wrap(vars(Hepatomegaly)) +
   labs(
-    title = "Good Title Goes Here",
-    subtitle = "Optional Subtitle",
-    x = "Duration in Days",
+    title = "Study Duration Linked to Hepatomegaly Status",
+    subtitle = "Patients negative for hepatomegaly demonstrate more uniform distribution
+than patients with positive or unknown status",
+    x = "Duration in Study (Days)",
     y = "Number of Subjects"
   )
 ```
@@ -246,7 +269,7 @@ ggplot(cirrhosis_study) +
 
 There are other kinds of plots that we won't get into much today. We'd rather go deep on just one plot rather than broad across many types of plots. But still, it's worth taking a quick look at some examples.
 
-**Your turn 13:** Run the four chunks below to see some other examples!
+**Your turn 14:** Run the four chunks below to see some other examples!
 
 Example 1: Show boxplots of bilirubin level, separated by disease stage.
 
