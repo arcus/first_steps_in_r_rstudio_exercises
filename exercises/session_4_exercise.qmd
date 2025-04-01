@@ -28,7 +28,7 @@ cirrhosis_study <- read_csv("../data/cirrhosis.csv")
 
 Let's start by looking at the data types in `cirrhosis_study`. You can do that in a couple of ways.
 
-**Your turn 2:** In the Environment pane, click the blue arrow beside the object name `cirrhosis_study`. Beside each column name, after a column, is the data type. How many data types can you identify?
+**Your turn 2:** In the Environment pane, click the blue arrow beside the object name `cirrhosis_study`. Beside each column name is the data type. How many data types can you quickly spot? Just take a few seconds to look.
 
 **Your turn 3:** Run the code chunk below. You'll see the same information as you did when you expanded the blue triangle!
 
@@ -55,10 +55,10 @@ typeof(sqrt(100))
 ```
 
 ```{r typeof-2}
-typeof(5 < 3)
+typeof(5 < 3) # hmmm... is five less than three?
 ```
 
-There are other data types, too, and the most important of these, and it's VERY important, is the **factor** data type.
+There are other data types, too, and the most important of these, and it's VERY important, is the **factor** data type (it's actually a structure, not a type, technically...).
 
 ## Factors
 
@@ -66,7 +66,7 @@ Factors are **categorical** variables (variables with a handful of predictable v
 
 Sometimes, things that look like numbers are actually factors that are written in code. Some people like to use numbers like 0 and 1 to mean "False" and "True", or things like 0 = Male, 1 = Female, 99 = Unknown. This can be a useful code, but the problem arises when R thinks "oh, this is a numerical signal, something I can use to help build a model." Does a subject of unknown sex have 99 times some quality than a female subject? No! But R might try to use a formula like that in a linear model. Using raw numbers instead of transforming them to factors can be misleading.
 
-And sometimes numbers are used canonically to label a category. Like the category of a hurricane or a ZIP code to categorize location. These use numbers, but if you think about them, you wouldn't do math on them. A ZIP in Nashville (37205) isn't "twice as ZIP" as one in Philadelphia (19104). And while hurricane categories are ordered, so a Category 5 storm is bigger than a Category 3 storm, each category is a broad range. It's not quite like, say, the amplitude-based Richter scale for earthquakes, where the relationship between two different Richter measurements is mathematical. With hurricanes, it's much more like the category of "small", "medium", and "large".
+And sometimes numbers are used canonically to label a category. Like the category of a hurricane or a ZIP code to categorize location. These use numbers, but if you think about them, you wouldn't do math on them. A ZIP in Nashville (37205) isn't "twice as ZIP" as one in Philadelphia (19104). 
 
 You should transform columns that contain categorical data into factors in R, **especially if they contain numbers.** Let's do that together for Status and Drug to start!
 
@@ -79,12 +79,12 @@ cleaned_cirrhosis_study <- cirrhosis_study
 
 cleaned_cirrhosis_study <- cleaned_cirrhosis_study |>
   mutate(Status = factor(Status),
-         Drug = factor (Drug))
+         Drug = factor(Drug))
 ```
 
 **Your turn 5:**. Use `str()` or the blue triangle in the Environment pane to compare the two very similar data frames `cirrhosis_study` and `cleaned_cirrhosis_study`. What do you notice about `Status` and `Drug` in these two data frames?
 
-**Your turn 6:**. Use `View()` or click on the object names in the Environment pane to look at the two very similar data frames `cirrhosis_study` and `cleaned_cirrhosis_study`. What do you notice about `Status` and `Drug` in these two data frames?
+**Your turn 6:**. Use `View()` or click on the object names in the Environment pane to look inside the two very similar data frames `cirrhosis_study` and `cleaned_cirrhosis_study`. What do you notice about `Status` and `Drug` in these two data frames?
 
 **Your turn 7:**. Finish the code chunk below to turn the rest of the categorical data in this data frame into factor data in R. Remember that factor data should consist of a few (3? 5? 25? It depends...) values that repeat over and over again.
 
@@ -144,64 +144,22 @@ Note that in the solutions file I might use a different pipe than you, or differ
 
 OK, now your PI is grumpy because the age in `high_cholesterol_females` is measured in days, and who measures age that way? "These are adults," he grumbles, "put their ages in years!" He wants you to replace the Age column that has days with an Age column that has years.
 
-There are many ways to do this. We'll share two possible models that only use the handful of functions we've talked about so far.
+You're going to make a new data frame, just in case you make a mistake, so you don't overwrite your existing data frame!  Not everyone does this, depending on their confidence level.
 
-Model 1: The "I like to check my work a little at a time" way:
+**Your turn 11:** 
 
-Step 1: Make a new (`my_test`) data frame that has Age and Age_Years columns (or something like that)
-
-Step 2: Eyeball the two age columns side by side to make sure you think it looks right
-
-Step 3: Use `mutate` to revalue any columns you want. For example, you could ask that `Age` be revalued to be the values of `Age_Years`.
-
-Step 4: Look again. Does it look pretty good?
-
-Step 5: Overwrite the existing `high_cholesterol_females` with your testing/experimental data frame, using `select` to indicate the columns you want (or, the ones you DON'T want).
-
-**Your turn 11:** Fill in the missing parts to complete Step 1 and 2 from Model 1 above.
-
-```{r mutate-carefully-step-1-2}
-my_test <-              |>
-  mutate(Age_Years =      / 365.25)
-View(my_test)
-```
-
-If you're getting ages in `Age_Years` that range from 26.27789 to 69.34702, you got it!
-
-**Your turn 12:** Fill in the missing parts to complete Step 3 and 4 from Model 1 above.
-
-```{r mutate-carefully-step-3-4}
-my_test <-         |>
-  mutate(Age =    )
-View(my_test)
-```
-
-If you're now getting ages in `Age` that range from 26.27789 to 69.34702, you got it!
-
-**Your turn 13:** Fill in the missing parts to complete Step 5 from Model 1 above.
-
-```{r mutate-carefully-step-5}
-high_cholesterol_females_model_1 <-          |>
-  select(-Age_Years)
-View(        )
-```
-
-Now, if you're feeling brave and have some experience, maybe you don't want to do some of the extra-careful stuff we've done here, saving the old data in its original data frame and making fresh copies to experiment on. That's totally fine and it's your call.
-
-**Your turn 14:** Finish and run the chunk below to create an improved data frame with updated Age column in one fell swoop! Compare the two results... `high_cholesterol_females_model_1` and `high_cholesterol_females_model_2`.
-
-```{r}
-high_cholesterol_females_model_2 <- high_cholesterol_females |>
-  mutate(Age =         )
+```{r mutate-age}
+high_cholesterol_females_updated <- high_cholesterol_females |>
+  mutate(Age = _____ / 365.25)
 ```
 
 ## Experiment With Group By And Summarize
 
 Here's an example group by / summarise.
 
-**Your turn 15:**. Run this code chunk!
+**Your turn 12:**. Run this code chunk!
 
-```{r}
+```{r group-by-hepatomegaly}
 cleaned_cirrhosis_study |>
   group_by(Hepatomegaly) |>
   summarize(Mean_Cholesterol = mean(Cholesterol, na.rm = TRUE), 
@@ -210,9 +168,9 @@ cleaned_cirrhosis_study |>
 
 But what if you wanted to see these values across the groups divided up by sex and hepatomegaly (so, males with hepatomegaly, males without, females with, females without, etc.)? Can you guess how to do that?
 
-**Your turn 16:** Do a bit of experimentation in the code chunk below!
+**Your turn 13:** Do a bit of experimentation in the code chunk below!
 
-```{r}
+```{r group-by-sex-hepatomegaly}
   
 
 
@@ -220,9 +178,9 @@ But what if you wanted to see these values across the groups divided up by sex a
 
 ```
 
-**Your turn 17:** What if you wanted to add the group size for each group to the information you're gathering? You could add the argument `group_size = n()` to your summarize statement. Give it a shot.
+**Your turn 14:** What if you wanted to add the group size for each group to the information you're gathering? You could add the argument `group_size = n()` to your summarize statement. Give it a shot.
 
-```{r}
+```{r group-by-add-size}
 
 
 
@@ -231,9 +189,9 @@ But what if you wanted to see these values across the groups divided up by sex a
 
 If you wanted to order the resulting table so that the highest mean cholesterol was at the top, and descended as it went down, you could do that. There's a `dplyr` function I haven't explained, called `arrange`.
 
-**Your turn 17:**. Try using the pipe to send your results so far to `arrange(desc(Mean_Cholesterol))`.
+**Your turn 15:**. Try using the pipe to send your results so far to an additional step: `arrange(desc(Mean_Cholesterol))`.
 
-```{r}
+```{r group-by-arrange}
 
 
 
