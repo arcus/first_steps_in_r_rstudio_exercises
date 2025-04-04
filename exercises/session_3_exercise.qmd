@@ -4,17 +4,19 @@ format: html
 editor: source
 ---
 
-**If you make changes to this file, please save it as `session_3_exercise_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it.**
+**After you make changes to this file, please save it as `session_3_exercise_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it.**
 
 ## Import Data
 
 Information about cirrhosis data: <https://archive.ics.uci.edu/dataset/878/cirrhosis+patient+survival+prediction+dataset-1>
 
-Notice that in the chunk below, after the "r" language specifier in the curly brackets, we've put `warning = FALSE` and `message = FALSE`. These settings can be useful for suppressing messages and warnings you already know are "false alarms" that aren't useful.
+Notice that in the chunk below, we've put `warning = FALSE` and `message = FALSE`. These settings can be useful for suppressing messages and warnings you already know are "false alarms" that aren't useful.  
+
+Whenever you want to add a special setting to a chunk, you need to provide the name of the option (like **warning**: should the chunk publish warnings, **message**, should the chunk publish messages, or **echo**, should the chunk publish the code written inside it) followed by an equals sign and the value, like TRUE or FALSE.  If you have more than one, you need commas between each option.
 
 **Your turn 1:** Run the chunk below.
 
-```{r, warning = FALSE, message = FALSE}
+```{r warning = FALSE, message = FALSE}
 library(tidyverse)
 cirrhosis_study <- read_csv("../data/cirrhosis.csv") 
 ```
@@ -66,7 +68,7 @@ ggplot(______) +
 Pro tips:
 
 -   There's lots about color in `ggplot2` here: <https://r-graph-gallery.com/ggplot2-color.html>.
--   In `ggplot2`, the word "color" refers to 1D **lines**, and the word "fill" refers to 2D **shapes**. If you are trying to color something and it's not working, it might be that what you need to do is replace the word "color" with "fill"!
+-   In `ggplot2`, the word "color" refers to **points** and **lines**, and the word "fill" refers to 2D **shapes**. If you are trying to color something and it's not working, it might be that what you need to do is replace the word "color" with "fill"!
 
 Let's add some color that does NOT correspond to the data -- it will be the same, no matter what. That's **setting** a color, not **mapping** data values to colors, so our color (in this case, because it's a shape and not a line, we call it "fill") will be **outside** the `aes()` function.
 
@@ -227,9 +229,9 @@ There are a couple of ways to facet:
 
 Of course, you want your labels to be useful. Let's expand and do more labeling!  Below, we added some sample better labels both axes, as well as a title and subtitle.
 
-**Your turn 13:** Run the chunk below. Then, change the title and subtitle to suit what you think is best (or remove the subtitle if you prefer). Feel free to alter the axis labels as well.
+**Your turn 13:** Run the chunk below. Then, change the title and subtitle to suit what you think is best (or remove the subtitle if you prefer). Feel free to alter the axis labels as well.  Notice that we've added echo=FALSE to the chunk options.  That means we won't see all the code if we render this code to an html document.  That can make things look cleaner and less scary to someone who doesn't want to see the code!
 
-```{r}
+```{r echo=FALSE}
 ggplot(cirrhosis_study) +
   geom_histogram(mapping = aes(x = N_Days,
                                fill = Hepatomegaly), 
@@ -256,7 +258,7 @@ There are other kinds of plots that we won't get into much today. We'd rather go
 
 Example 1: Show boxplots of bilirubin level, separated by disease stage.
 
-```{r}
+```{r echo=FALSE, warning = FALSE, message = FALSE}
 ggplot(data = cirrhosis_study) +
   geom_boxplot(mapping = aes(x = Stage,
                              y = Bilirubin, 
@@ -268,7 +270,7 @@ ggplot(data = cirrhosis_study) +
 
 Example 2: Show a scatterplot of copper (on the x axis) and bilirubin (on the y axis) measurements, colored by the sex of the subject. On top of that, add an additional plot, the linear model of the relationship of these two variables.
 
-```{r}
+```{r echo=FALSE, warning = FALSE, message = FALSE}
 ggplot(data = cirrhosis_study) +
   geom_point(mapping = aes(x = Copper,
                            y = Bilirubin, 
@@ -285,7 +287,7 @@ ggplot(data = cirrhosis_study) +
 
 Example 3: A probability density estimate (like a smoothed histogram) showing the distribution of N_Days
 
-```{r}
+```{r echo=FALSE, warning = FALSE, message = FALSE}
 ggplot(cirrhosis_study) +
   geom_density(mapping = aes(x = N_Days,
                                fill = Hepatomegaly), 
@@ -298,7 +300,7 @@ ggplot(cirrhosis_study) +
 
 Example 4: A faceted scatterplot of albumin and copper, with points colored by study status, and graphs faceted by treatment.
 
-```{r}
+```{r echo=FALSE, warning = FALSE, message = FALSE}
 ggplot(cirrhosis_study) +
   geom_point(aes(x = Albumin, 
                  y = Copper,
@@ -306,3 +308,5 @@ ggplot(cirrhosis_study) +
              alpha = 0.6) +
   facet_wrap(. ~ Drug)
 ```
+
+**Your Turn 15:** At the top of the screen you should see a button that says "Render" with a blue arrow. Click it to render your document!  If your code is all error-free, you should get a rendered .html document.

@@ -1,10 +1,10 @@
 ---
-title: "Session 5: Solutions"
+title: "Session 5: Solutions (Cirrhosis)"
 format: html
 editor: source
 ---
 
-**After you make changes to this file, please save it as `session_5_solution_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it.**
+**If you make changes to this file, please save it as `session_5_solution_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it.**
 
 # Putting it All Together
 
@@ -14,15 +14,18 @@ OR... if you're TIRED of the cirrhosis data, there is another dataset we haven't
 
 Note that we're not doing research-grade predictive modeling or hypothesis testing... that is outside the scope of this First Steps workshop series.
 
-This time, the entire Quarto document is "your turn"... so go ahead and create the code chunks you want!  We'll provide some scaffolding.
+This time, the entire Quarto document is "your turn"... so go ahead and create the code chunks you want!  We'll provide some scaffolding.  Please feel free to delete all the instructions and rename this with a more expressive file name.
+
+If you want to make your report very elegant by not showing warnings or messages, here's a chunk that can do that for you.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE,
+                      message = FALSE)
+```
 
 ## Load Libraries and Import Data
 
 We're bringing in cirrhosis data from the 1980's that was used for predictive modeling. <https://archive.ics.uci.edu/dataset/878/cirrhosis+patient+survival+prediction+dataset-1>
-
-Cirrhosis is a disease of the liver that ....
-
-The study population included ....
 
 ```{r libraries-ingest, warning = FALSE, message = FALSE}
 library(tidyverse)
@@ -33,7 +36,7 @@ cirrhosis_study <- read_csv("../data/cirrhosis.csv")
 
 We're going to do some data cleaning, setting some data to be factor (categorical), and making Age to reflect years.
 
-```{r}
+```{r clean-data}
 cleaned_cirrhosis_study <- cirrhosis_study |>
   mutate(Status = factor(Status),
          Drug = factor(Drug),
@@ -50,7 +53,7 @@ cleaned_cirrhosis_study <- cirrhosis_study |>
 
 Here's a peek at some of the characteristics of the data:
 
-```{r}
+```{r show-snapshot, echo=FALSE}
 summary(cleaned_cirrhosis_study)
 ```
 
@@ -60,7 +63,7 @@ We're going to concentrate on one discrete characteristic, the presence spider a
 
 Let's take a look at `Spiders` by looking at its prevalence per each cirrhosis disease stage.  We'll first make a slimmed down version of our data and remove rows for which we either don't know the stage of the disease or have no data about whether there are spiders.  Then we'll assess overall prevalence.
 
-```{r}
+```{r spider-angioma-data, echo=FALSE}
 spiders_complete_data <- cleaned_cirrhosis_study |>
   select(ID, Stage, Spiders) |>
   filter(!is.na(Stage),

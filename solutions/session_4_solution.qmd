@@ -4,7 +4,7 @@ format: html
 editor: source
 ---
 
-**If you make changes to this file, please save it as `session_4_solution_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it.**
+**After you make changes to this file, please save it as `session_4_solution_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it.**
 
 ## Load Libraries and Import Data
 

@@ -4,7 +4,7 @@ format: html
 editor: source
 ---
 
-**If you make changes to this file, please save it as `session_2_solution_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it.**
+**After you make changes to this file, please save it as `session_2_solution_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it.**
 
 ## What is This?
 
@@ -36,7 +36,7 @@ Let's try it!
 
 The exercise files are in the `exercises` directory, so in order to get to the data, I have to go up a level, to the directory that holds both `exercises` and `data`. That's why I start with two dots, which means "go up a level". Then I go down into `data` to find the file I want to open.
 
-**Your turn 4:** Run the chunk below (you know where to look, right?).
+**Your turn 4:** Run the chunk below (you know how, right?).
 
 ```{r}
 cirrhosis_study <- read_csv("../data/cirrhosis.csv")
@@ -123,10 +123,48 @@ summary(cirrhosis_study$Albumin)
 
 We show you this because other people might show you how to do things in ways we don't. In R, there are many ways to do the same thing!
 
+## Help 
+
+Getting help in RStudio can take on multiple forms:
+
+* Sometimes when you're typing code, and autocomplete starts to take over, you'll get a little banner prompting you to hit a keyboard shortcut for getting help.
+* You can type a question mark followed by a function name in the console.
+* You can use the Help tab in the lower right pane of RStudio.  There's lots there to discover:
+  - The "Home" button has lots of links
+  - The "Search" field in the top of the Help section allows you to search across the help documentation for everything you have installed
+  - The "Find in topic" search box allows you to search within a help file you already have open
+* The Help Menu in the menu bar at the top of the screen also has a lot of useful things. Try looking at some of the "cheat sheets" (they might automatically download to your computer as .pdf files).
+
+**Your turn 7:**
+
+In the console (the pane in the lower left of the RStudio IDE), type `?summarize` (don't put in the back ticks, that's just our way of making the command stand out).  Then hit enter.
+
+> This is what this should look like in the console:  ?summarize
+
+Take a look in the Help viewer.  Notice that what comes up is the help file for `summarise`.  R is smart enough to handle both standard and American spellings of English words, when there are alternates!
+
+Help documentation can be a challenging literary genre to get to know.  Try this:
+
+* Read the "description" section.  Do you have any idea what this does by reading the description?
+* Glance briefly at the "usage" section.  Sometimes this can be helpful when you have an error, to understand what you might be missing or misspelling.
+* Scroll all the way down to the bottom, then scroll back up until you get to the first "Example".  For the `summarise` or `summarize` function, the examples all have to do with the Motor Trend car dataset.  Try adding a code chunk below and running one or two of the examples.
+
+```{r}
+# A summary applied to ungrouped tbl returns a single row
+mtcars %>%
+  summarise(mean = mean(disp), n = n())
+
+# Usually, you'll want to group first
+mtcars %>%
+  group_by(cyl) %>%
+  summarise(mean = mean(disp), n = n())
+```
+
+
 ## Rendering
 
 When you write your code and your human reasoning like this, interlaced, in a Quarto doc, it's very easy to make a document like an html page.
 
-**Your turn 7:**
+**Your turn 8:**
 
 At the top of the screen you should see a button that says "Render" with a blue arrow. Click it.
