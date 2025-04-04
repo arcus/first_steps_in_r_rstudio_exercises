@@ -4,7 +4,7 @@ format: html
 editor: source
 ---
 
-**After you make changes to this file, please save it as `session_2_exercise_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it.**
+**Before you make changes to this file, please save it as `session_2_exercise_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it.**
 
 ## What is This?
 
@@ -32,7 +32,7 @@ Let's try it!
 
 ## Importing Data Using `read_csv()`
 
-**Your turn 3:** In case you haven't looked, take a look over in the lower right side of the application to find the "Files" tab.
+**Your turn 3:** In case you haven't looked, take a look over in the lower right side of the application to find the "Files" tab.  How would you describe the "path" from the exercise folder, where this file lives, to the `cirrhosis.csv` file in the data folder?
 
 The exercise files are in the `exercises` directory, so in order to get to the data, I have to go up a level, to the directory that holds both `exercises` and `data`. That's why I start with two dots, which means "go up a level". Then I go down into `data` to find the file I want to open.
 
@@ -82,9 +82,39 @@ Bad names:
 -   `1st_name` (starts with a number)
 -   `age:years` (contains a symbol other than underscore)
 
+## Using R to learn about your Data
+
+**Your turn 6:** Run these chunks.  What do you think each one accomplishes?  
+Add a note in each comment (note that **within** a code chunk, a hash mark indicates a comment.)
+
+```{r}
+# I think this ...
+head(cirrhosis_study)
+```
+
+```{r}
+# I think this ...
+tail(cirrhosis_study)
+```
+
+```{r}
+# I think this ...
+summary(cirrhosis_study)
+```
+
+```{r}
+# I think this ...
+class(cirrhosis_study)
+```
+
+```{r}
+# I think this ...
+cirrhosis_study
+```
+
 ## In R, You can Do Things Multiple Ways
 
-**Your turn 6:** Read and execute the cells below.
+**Your turn 7:** Read and execute the cells below.
 
 Here's one way we can find out the median value of Albumin for all the subjects in the study:
 
@@ -115,15 +145,6 @@ summary(cirrhosis_study$Albumin)
 
 We show you this because other people might show you how to do things in ways we don't. In R, there are many ways to do the same thing!
 
-## Preview of Next Session: Data Viz
-
-**Your turn 7:** Run this chunk!
-
-```{r}
-ggplot(data = cirrhosis_study) +
-  geom_histogram(mapping = aes(x = N_Days))
-```
-
 ## Help
 
 Getting help in RStudio can take on multiple forms:
@@ -136,11 +157,11 @@ Getting help in RStudio can take on multiple forms:
     -   The "Find in topic" search box allows you to search within a help file you already have open
 -   The Help Menu in the menu bar at the top of the screen also has a lot of useful things. Try looking at some of the "cheat sheets" (they might automatically download to your computer as .pdf files).
 
-**Your turn 7:**
+**Your turn 8:**
 
 In the console (the pane in the lower left of the RStudio IDE), type `?summarize` (don't put in the back ticks, that's just our way of making the command stand out). Then hit enter.
 
-Take a look in the Help viewer. Notice that what comes up is the help file for `summarise`. R is smart enough to handle both standard and American spellings of English words, when there are alternates!
+Take a look in the Help viewer. Notice that what comes up is the help file for `summarise`. Tidyverse packages are smart enough to handle both standard and American spellings of English words, when there are alternates!
 
 Help documentation can be a challenging literary genre to get to know. Try this:
 
@@ -148,10 +169,19 @@ Help documentation can be a challenging literary genre to get to know. Try this:
 -   Glance briefly at the "usage" section. Sometimes this can be helpful when you have an error, to understand what you might be missing or misspelling.
 -   Scroll all the way down to the bottom, then scroll back up until you get to the first "Example". For the `summarise` or `summarize` function, the examples all have to do with the Motor Trend car dataset. Try adding a code chunk below (see if you can find the green "add a code chunk" button) and running one or two of the examples.
 
+## Preview of Next Session: Data Viz
+
+**Your turn 9:** Run this chunk!
+
+```{r}
+ggplot(data = cirrhosis_study) +
+  geom_histogram(mapping = aes(x = N_Days))
+```
+
 ## Rendering
 
 When you write your code and your human reasoning like this, interlaced, in a Quarto doc, it's very easy to make a document like an html page.
 
-**Your turn 8:**
+**Your turn 10:**
 
 At the top of the screen you should see a button that says "Render" with a blue arrow. Click it.

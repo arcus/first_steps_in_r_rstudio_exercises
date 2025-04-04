@@ -2,6 +2,8 @@
 
 This repository holds exercise and solutions files related to the First Steps in R and RStudio Skills Series offered by Arcus Education.
 
+Here is a breakdown of some of the topics covered in each exercise:
+
 ## Session 2
 
 * Source and Visual buttons in the RStudio IDE
@@ -15,6 +17,7 @@ This repository holds exercise and solutions files related to the First Steps in
   - Clicking on the names of data frames
 * Good names for objects (variables, columns) in R
 * R often has multiple ways to do the same thing
+* Help in R and reading help documentation
 * Rendering a Quarto document
 
 ## Session 3

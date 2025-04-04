@@ -4,7 +4,7 @@ format: html
 editor: source
 ---
 
-**After you make changes to this file, please save it as `session_3_solution_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it.**
+**Before you make changes to this file, please save it as `session_3_solution_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it, and be able to get any updates from the GitHub repo without conflicts.**
 
 ## Import Data
 

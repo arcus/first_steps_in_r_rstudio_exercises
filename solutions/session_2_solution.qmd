@@ -4,7 +4,7 @@ format: html
 editor: source
 ---
 
-**After you make changes to this file, please save it as `session_2_solution_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it.**
+**Before you make changes to this file, please save it as `session_2_solution_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it, and be able to get any updates from the GitHub repo without conflicts.**
 
 ## What is This?
 
@@ -32,7 +32,7 @@ Let's try it!
 
 ## Importing Data Using `read_csv()`
 
-**Your turn 3:** In case you haven't looked, take a look over in the lower right side of the application to find the "Files" tab.
+**Your turn 3:** In case you haven't looked, take a look over in the lower right side of the application to find the "Files" tab.  How would you describe the "path" from the exercise folder, where this file lives, to the `cirrhosis.csv` file in the data folder?
 
 The exercise files are in the `exercises` directory, so in order to get to the data, I have to go up a level, to the directory that holds both `exercises` and `data`. That's why I start with two dots, which means "go up a level". Then I go down into `data` to find the file I want to open.
 
@@ -90,9 +90,42 @@ Bad names:
 -   `1st_name` (starts with a number)
 -   `age:years` (contains a symbol other than underscore)
 
+## Using R to learn about your Data
+
+**Your turn 6:** Run these chunks.  What do you think each one accomplishes?  
+Add a note in each comment (note that **within** a code chunk, a hash mark indicates a comment.)
+
+```{r}
+# The `head` function shows the first few rows of a data frame.
+head(cirrhosis_study)
+```
+
+```{r}
+# The `tail` function shows the last few rows of a data frame.
+tail(cirrhosis_study)
+```
+
+```{r}
+# The `summary` function shows descriptive statistics for each column of 
+# a data frame.
+summary(cirrhosis_study)
+```
+
+```{r}
+# The `class` function tells us something about the data type or data
+# structure of an object in R.
+class(cirrhosis_study)
+```
+
+```{r}
+# If you just give the name of an object, R will show it to you 
+# the best way it knows how!
+cirrhosis_study
+```
+
 ## In R, You can Do Things Multiple Ways
 
-**Your turn 6:** Read and execute the cells below.
+**Your turn 7:** Read and execute the cells below.
 
 Here's one way we can find out the median value of Albumin for all the subjects in the study:
 
@@ -135,7 +168,7 @@ Getting help in RStudio can take on multiple forms:
   - The "Find in topic" search box allows you to search within a help file you already have open
 * The Help Menu in the menu bar at the top of the screen also has a lot of useful things. Try looking at some of the "cheat sheets" (they might automatically download to your computer as .pdf files).
 
-**Your turn 7:**
+**Your turn 8:**
 
 In the console (the pane in the lower left of the RStudio IDE), type `?summarize` (don't put in the back ticks, that's just our way of making the command stand out).  Then hit enter.
 
@@ -160,11 +193,19 @@ mtcars %>%
   summarise(mean = mean(disp), n = n())
 ```
 
+## Preview of Next Session: Data Viz
+
+**Your turn 9:** Run this chunk!
+
+```{r}
+ggplot(data = cirrhosis_study) +
+  geom_histogram(mapping = aes(x = N_Days))
+```
 
 ## Rendering
 
 When you write your code and your human reasoning like this, interlaced, in a Quarto doc, it's very easy to make a document like an html page.
 
-**Your turn 8:**
+**Your turn 10:**
 
 At the top of the screen you should see a button that says "Render" with a blue arrow. Click it.

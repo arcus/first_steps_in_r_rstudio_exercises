@@ -4,7 +4,7 @@ format: html
 editor: source
 ---
 
-**After you make changes to this file, please save it as `session_4_exercise_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it.**
+**Before you make changes to this file, please save it as `session_4_exercise_nn.qmd`, where "nn" are your initials. This is so you'll have your own copy with your changes, and you'll still have access to the original if you need it, and be able to get any updates from the GitHub repo without conflicts.**
 
 ## Load Libraries and Import Data
 
@@ -54,7 +54,7 @@ typeof("Apples")
 typeof(sqrt(100))
 ```
 
-```{r typeof-2}
+```{r typeof-3}
 typeof(5 < 3) # hmmm... is five less than three?
 ```
 
@@ -72,7 +72,7 @@ You should transform columns that contain categorical data into factors in R, **
 
 We can use the `mutate` function of `dplyr` to do this.
 
-**Your turn 4:** Run the code chunk below to create a "cleaned" version of the cirrhosis data (that's so we don't overwrite our original data in case we mess up).
+**Your turn 4:** Run the code chunk below to create a "cleaned" version of the cirrhosis data.  That's so we don't overwrite our original data in case we mess up.  If we do mess up, we can just re-run this cell!
 
 ```{r factors-1}
 cleaned_cirrhosis_study <- cirrhosis_study
@@ -86,16 +86,18 @@ cleaned_cirrhosis_study <- cleaned_cirrhosis_study |>
 
 **Your turn 6:**. Use `View()` or click on the object names in the Environment pane to look inside the two very similar data frames `cirrhosis_study` and `cleaned_cirrhosis_study`. What do you notice about `Status` and `Drug` in these two data frames?
 
-**Your turn 7:**. Finish the code chunk below to turn the rest of the categorical data in this data frame into factor data in R. Remember that factor data should consist of a few (3? 5? 25? It depends...) values that repeat over and over again.
+**Your turn 7:**. Finish the code chunk below to turn the rest of the categorical data in this data frame into factor data in R. Remember that factor data should consist of a few (3? 5? 25? It depends...) values that repeat over and over again.  We've filled in Stage for you already, because Stage is an "ordered" factor, so the syntax is a little more complex.
 
 ```{r factors-2}
 cleaned_cirrhosis_study <- cleaned_cirrhosis_study |>
-  mutate(Sex =  ,
-         Ascites =  ,
-         Hepatomegaly =  ,
-         Spiders =  ,
-         Edema =  ,
-         Stage =  )
+  mutate(Sex =  ,             # complete this
+         Ascites =  ,         # complete this
+         Hepatomegaly =  ,    # complete this
+         Spiders =  ,         # complete this
+         Edema =  ,           # complete this
+         Stage = factor(Stage,
+                        levels = c(1, 2, 3, 4), # not quoted! These are integers
+                        ordered=TRUE))
 ```
 
 ## Use `dplyr` Filter and Select
