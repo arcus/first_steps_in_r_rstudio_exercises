@@ -124,31 +124,29 @@ ggplot(data = cirrhosis_study) +
   geom_histogram(mapping = aes(x = N_Days))
 ```
 
-## Help 
+## Help
 
 Getting help in RStudio can take on multiple forms:
 
-* Sometimes when you're typing code, and autocomplete starts to take over, you'll get a little banner prompting you to hit a keyboard shortcut for getting help.
-* You can type a question mark followed by a function name in the console.
-* You can use the Help tab in the lower right pane of RStudio.  There's lots there to discover:
-  - The "Home" button has lots of links
-  - The "Search" field in the top of the Help section allows you to search across the help documentation for everything you have installed
-  - The "Find in topic" search box allows you to search within a help file you already have open
-* The Help Menu in the menu bar at the top of the screen also has a lot of useful things. Try looking at some of the "cheat sheets" (they might automatically download to your computer as .pdf files).
+-   Sometimes when you're typing code, and autocomplete starts to take over, you'll get a little banner prompting you to hit a keyboard shortcut for getting help.
+-   You can type a question mark followed by a function name in the console.
+-   You can use the Help tab in the lower right pane of RStudio. There's lots there to discover:
+    -   The "Home" button has lots of links
+    -   The "Search" field in the top of the Help section allows you to search across the help documentation for everything you have installed
+    -   The "Find in topic" search box allows you to search within a help file you already have open
+-   The Help Menu in the menu bar at the top of the screen also has a lot of useful things. Try looking at some of the "cheat sheets" (they might automatically download to your computer as .pdf files).
 
 **Your turn 7:**
 
-In the console (the pane in the lower left of the RStudio IDE), type `?summarize` (don't put in the back ticks, that's just our way of making the command stand out).  Then hit enter.
+In the console (the pane in the lower left of the RStudio IDE), type `?summarize` (don't put in the back ticks, that's just our way of making the command stand out). Then hit enter.
 
-> This is what this should look like in the console:  ?summarize
+Take a look in the Help viewer. Notice that what comes up is the help file for `summarise`. R is smart enough to handle both standard and American spellings of English words, when there are alternates!
 
-Take a look in the Help viewer.  Notice that what comes up is the help file for `summarise`.  R is smart enough to handle both standard and American spellings of English words, when there are alternates!
+Help documentation can be a challenging literary genre to get to know. Try this:
 
-Help documentation can be a challenging literary genre to get to know.  Try this:
-
-* Read the "description" section.  Do you have any idea what this does by reading the description?
-* Glance briefly at the "usage" section.  Sometimes this can be helpful when you have an error, to understand what you might be missing or misspelling.
-* Scroll all the way down to the bottom, then scroll back up until you get to the first "Example".  For the `summarise` or `summarize` function, the examples all have to do with the Motor Trend car dataset.  Try adding a code chunk below and running one or two of the examples.
+-   Read the "description" section. Do you have any idea what this does by reading the description?
+-   Glance briefly at the "usage" section. Sometimes this can be helpful when you have an error, to understand what you might be missing or misspelling.
+-   Scroll all the way down to the bottom, then scroll back up until you get to the first "Example". For the `summarise` or `summarize` function, the examples all have to do with the Motor Trend car dataset. Try adding a code chunk below (see if you can find the green "add a code chunk" button) and running one or two of the examples.
 
 ## Rendering
 
