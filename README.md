@@ -1,6 +1,6 @@
 # First Steps in R and RStudio Exercises
 
-This repository holds exercise and solutions files related to the First Steps in R and RStudio Skills Series offered by Arcus Education.
+This repository holds exercise and solutions files related to the [First Steps in R and RStudio Skills Series](https://arcus.github.io/first_steps_in_r_rstudio_skills_series/index.html) offered by Arcus Education.
 
 Here is a breakdown of some of the topics covered in each exercise:
 
@@ -16,6 +16,7 @@ Here is a breakdown of some of the topics covered in each exercise:
   - Blue triangle beside data frames
   - Clicking on the names of data frames
 * Good names for objects (variables, columns) in R
+* `head`, `tail`, `summary` as ways to examine an object in R
 * R often has multiple ways to do the same thing
 * Help in R and reading help documentation
 * Rendering a Quarto document
@@ -46,6 +47,10 @@ Here is a breakdown of some of the topics covered in each exercise:
 * `str()` to look at data types (mirrored with blue triangle in Environment tab)
 * `View()` to look within data frame (mirrored with clicking name in Environment tab)
 * Factors in R
-* Using `mutate` to transform variables to factors
+* Using `mutate` to transform variables to factors (including ordered)
 * Using `select` and `filter` to subset data
+
+## Session 5
+
+* Hands on work!
 
