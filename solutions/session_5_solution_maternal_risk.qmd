@@ -1,0 +1,202 @@
+---
+title: "Session 5: Solutions"
+format: html
+editor: source
+---
+
+## Import Data
+
+We're bringing in maternal health risk data from <https://archive.ics.uci.edu/dataset/863/maternal+health+risk>. Note that the "RiskLevel" is a computed risk score taken from the other variables and is not an outcome measure.
+
+```{r libraries-ingest, warning = FALSE, message = FALSE}
+library(tidyverse)
+maternal_health_risk <- read_csv("../data/maternal_health_risk.csv") 
+```
+
+## Peek at the Data
+
+```{r look-at-data}
+maternal_health_risk
+```
+
+What risk levels do we have?
+
+```{r identify-risk-levels}
+maternal_health_risk |> 
+  select(RiskLevel) |>
+  unique()
+```
+
+## Clean and Prepare the Data
+
+Let's set our risk levels as an ordered factor:
+
+```{r clean-and-set-factor}
+cleaned_maternal_health_risk <- maternal_health_risk |>
+  mutate(RiskLevel = factor(RiskLevel,
+                            levels =c("low risk",
+                                       "mid risk",
+                                       "high risk"),
+                            ordered = TRUE))
+```
+
+
+## Show a Snapshot of the Data
+
+Here's a peek at some of the characteristics of the data:
+
+```{r stat-summary}
+summary(cleaned_maternal_health_risk)
+```
+
+## Visualize Data
+
+We're going to concentrate on Age, looking at how it relates to other variables including Systolic BP, Blood Sugar, and Heart Rate.
+
+We'll start by doing a simple data visualization to see the distribution of maternal age.
+
+```{r age-hist}
+ggplot(cleaned_maternal_health_risk) +
+  geom_histogram(aes(x=Age))
+```
+
+We'll then do a scatter plot that compares age to systolic blood pressure:
+
+```{r age-systolic}
+ggplot(cleaned_maternal_health_risk) +
+  geom_point(aes(x=Age, y = SystolicBP))
+```
+
+Let's add labels and improve the look and feel.  I'm adding "geom_smooth" here to add on a linear model (which we haven't talked about in the workshop, but allows you to add on a simple linear model of the Algebra I format, y = mx+b, a single x in a linear relationship).
+
+```{r nice-age-systolic}
+ggplot(cleaned_maternal_health_risk) +
+  geom_point(aes(x=Age, y = SystolicBP)) +
+  geom_smooth(aes(x=Age, y=SystolicBP),
+              method="lm",       # linear model
+              formula = "y~x") + # y as a function of x
+  theme_linedraw() +
+  labs(title = "Increased Maternal Age Linked to Increased Systolic BP",
+       y = "Systolic Blood Pressure")
+```
+
+Let's see how age affects other biological characteristics.  
+
+```{r age-blood-glucose}
+ggplot(maternal_health_risk) +
+  geom_point(aes(x=Age, y = BS)) +
+  geom_smooth(aes(x=Age, y = BS),
+              method='lm', 
+              formula = y ~ x) +
+  labs(title = "Blood Sugar Increases as Age Increases ",
+       y = "Blood Glucose, mmol/L") +
+  theme_light() +
+  theme(plot.background = element_rect(fill = "#FFFFAA"))
+```
+
+```{r}
+ggplot(maternal_health_risk) +
+  geom_point(aes(x=Age, y = BodyTemp),
+             color = "#411559") +
+  geom_smooth(aes(x=Age, y = BodyTemp),
+              method='lm', 
+              formula = y ~ x) +
+  labs(title = "Body Temperature Decreases With Age",
+       y = "Body Temperature, Degrees F") +
+  theme(axis.line = element_line(linewidth = 2, colour = "darkviolet")) +
+  scale_x_continuous(breaks = seq(5, 70, by=5))
+```
+
+```{r}
+ggplot(maternal_health_risk) +
+  geom_point(aes(x=Age, y = HeartRate)) +
+  geom_smooth(aes(x=Age, y = HeartRate),
+              method='lm', 
+              formula = y ~ x) +
+  labs(title = "Heart Rate Holds Steady With Age",
+       y = "Heart Rate") +
+  theme_classic() +
+  scale_x_continuous(breaks = seq(10, 70, by=10))
+```
+
+## Dealing with Outliers
+
+There appears to be one strange outlier in Heart Rate.  Let's find just that data:
+
+```{r}
+cleaned_maternal_health_risk |>
+  filter(HeartRate < 25)
+```
+
+Interesting.  This seems like a strange outlier.  When we run across outliers like this, we should make rule-based decisions about them.  I think in this case we have two things going on.  One is that we have the same unlikely data entered twice, and one is that the data itself is questionable, at least the heart rate, and by extension the risk level.
+
+For now, I'm going to establish a few rules that I think make sense.  I'll only keep data if the body temperature is over 90 degrees, the diastolic BP is over 30, the systolic is over 70, and the heart rate is over 20.  I won't go back and re-do the visualizations I've done previously, but I'll work using the new data moving forward.
+
+```{r}
+cleaned_maternal_health_risk <- cleaned_maternal_health_risk |>
+  filter(BodyTemp > 90,
+         DiastolicBP > 30,
+         SystolicBP > 70,
+         HeartRate > 20)
+```
+
+How many rows does that take out, compared to my original data?
+
+```{r}
+nrow(maternal_health_risk)
+```
+
+```{r}
+nrow(cleaned_maternal_health_risk)
+```
+
+Wow, that takes out 9 rows!  That's perhaps a little worrying, or at least interesting!
+
+## Returning to Data Viz
+
+How does age influence risk?  Let's look at age distribution in each risk bin:
+
+```{r}
+ggplot(cleaned_maternal_health_risk) +
+  geom_violin(aes(x=RiskLevel, y=Age)) +
+  theme_bw()
+```
+
+
+What if we did something similar for systolic BP?
+
+```{r}
+ggplot(cleaned_maternal_health_risk) +
+  geom_violin(aes(x=RiskLevel, y=SystolicBP)) +
+  theme_dark()
+```
+
+And finally, what about blood sugar?  
+
+```{r}
+ggplot(cleaned_maternal_health_risk) +
+  geom_violin(aes(x=RiskLevel, y=BS)) +
+  theme_gray()
+```
+
+Oh, this one is very interesting.  Low and mid-risk groups have mostly lower blood sugar with a few outliers, but high risk have very even distribution of blood sugar from low to high!
+
+Let's do some group by statistics to understand more:
+
+```{r}
+cleaned_maternal_health_risk |>
+  group_by(RiskLevel) |>
+  summarize(number_of_cases = n(),
+            min_blood_sugar = min(BS),
+            median_blood_sugar = median(BS),
+            mean_blood_sugar = mean(BS),
+            max_blood_sugar = max(BS))
+```
+
+
+## Some Preliminary Conclusions
+
+We could do a lot more here, but it seems from our looking into this data that we've discovered a couple of things:
+
+* There are some probable data quality issues
+* Age seems to correlated to a number of factors, like blood sugar and blood pressure

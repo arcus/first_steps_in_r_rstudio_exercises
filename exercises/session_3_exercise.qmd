@@ -76,7 +76,7 @@ Let's make our histogram purple. A good color of purple in hexadecimal RGB notat
 
 Here's the code, ready to go, with just one empty spot to fill in.
 
-**Your turn 4:** Notice where we've put "fill" -- it's inside the parentheses for `geom_histogram` but it's outside the parentheses for `aes`. Then, add a value for fill. Try "purple" and also try "#AA00CC". Heck, try other colors while you're at it!
+**Your turn 4:** Notice where we've put "fill" -- it's inside the parentheses for `geom_histogram` but it's outside the parentheses for `aes`. Then, add a value for fill. Try "purple" and also try "#AA00CC". Heck, try other colors while you're at it!  (And yes, you need quotes...)
 
 ```{r}
 ggplot(cirrhosis_study) +
@@ -100,6 +100,8 @@ Let's next add some color that DOES correspond to the data. We'll color our hist
     -   It will be set to use the `Hepatomegaly` column (so, type "Hepatomegaly").
 -   Makes sure both aesthetics are within the `aes()` function (inside its set of parentheses)
 
+(If this all seems like a lot, don't worry, you can steal code from the next chunk down!)
+
 ```{r}
 
 ```
@@ -115,7 +117,7 @@ ggplot(cirrhosis_study) +
   geom_histogram(mapping = aes(x = N_Days,
                                fill = Hepatomegaly), 
                  binwidth = 365.25) +
-  labs(x = "Duration in Study (Days)") # Lots of possible correct answers here!
+  labs(x = "               ") # Lots of possible correct answers here!
 ```
 
 In addition to using axis labels in `labs`, you can also add a title, subtitle, or other labels.  In your console, you can type `?labs` to find out more.
@@ -195,7 +197,7 @@ ggplot(cirrhosis_study) +
 
 Oof. That's somehow even worse, because the overlap is so strong that it's really hard to read. This would be a great option if we had histograms that had different ranges (so the overlap wasn't quite so intense), but it's not good here at all. Let's try a different approach -- using position = "dodge".
 
-**Your turn 11:** Copy and paste the previous code chunk above. Remove the `alpha` argument and set the `position` argument to "dodge". Make sure the last argument in `geom_histogram` isn't followed by a comma, or R will wonder what else you meant to add! Then run the chunk.
+**Your turn 11:** Copy and paste the previous code chunk above. Remove the `alpha` argument and set the `position` argument to "dodge". Then run the chunk.
 
 ```{r}
 
@@ -229,7 +231,9 @@ There are a couple of ways to facet:
 
 Of course, you want your labels to be useful. Let's expand and do more labeling!  Below, we added some sample better labels both axes, as well as a title and subtitle.
 
-**Your turn 13:** Run the chunk below. Then, change the title and subtitle to suit what you think is best (or remove the subtitle if you prefer). Feel free to alter the axis labels as well.  Notice that we've added echo=FALSE to the chunk options.  That means we won't see all the code if we render this code to an html document.  That can make things look cleaner and less scary to someone who doesn't want to see the code!
+**Your turn 13:** Run the chunk below. Then, change the title and subtitle to suit what you think is best (or remove the subtitle if you prefer). Feel free to alter the axis labels as well.  
+
+Notice that we've added `echo=FALSE` to the chunk options.  That means we won't see all the code if we render this code to an html document.  That can make things look cleaner and less scary to someone who doesn't want to see the code!  We'll do that for the rest of the graphs here, too.
 
 ```{r echo=FALSE}
 ggplot(cirrhosis_study) +
